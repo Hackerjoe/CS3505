@@ -1,9 +1,10 @@
 #include <iostream>
 #include "Trie.h"
 
-using namespace std;
-
 int main()
 {
-	cout << "hello world" << endl;
+	Trie* trie = new Trie;
+	trie->addWord("hello");
+	if(trie->isWord("helo"))
+		std::cout << "is word" << std::endl;
 }
