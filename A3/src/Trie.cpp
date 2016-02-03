@@ -81,15 +81,15 @@ vector<string> Trie::allWordsWithPrefix(string word)
 	
 	for(int i = 0; i < word.length(); i++)
 	{
-		Node* NextNode = CurrentNode->GetChild(word[i]);
+		CurrentNode = CurrentNode->GetChild(word[i]);
 	}
 	
-	returnResult = this->SearchNode(CurrentNode);
+	returnResult = this->SearchNode(CurrentNode, word);
 	
 	return returnResult;
 }
 
-vector<string> Trie::SearchNode(Node* node)
+vector<string> Trie::SearchNode(Node* node, string word)
 {
 	vector<string> returnResult;
 	if(node == NULL)
@@ -104,13 +104,19 @@ vector<string> Trie::SearchNode(Node* node)
 		Node* Child = node->GetChild((*it));
 		if(Child->isEndOfWord() == true)
 		{
-			string EndString;
-			EndString += node->GetValue();
-			EndString += (*it);
-			cout << EndString << endl;
-			returnResult.push_back(EndString);
+			string EndWord = word;
+			EndWord += (*it); 
+			returnResult.push_back(EndWord);
 		}
-		this->SearchNode(Child);
+		else
+		{
+			word +=(*it);
+		}
+		vector<string> RecResult = this->SearchNode(Child,word);
+		for (auto it = RecResult.begin() ; it != RecResult.end(); ++it)
+		{
+			returnResult.push_back((*it));
+		}
     }
 	
 	return returnResult;

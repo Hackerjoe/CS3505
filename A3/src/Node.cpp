@@ -62,8 +62,8 @@ vector<char> Node::GetChildrenValues()
 {
 	vector<char> returnResult;
 	for (auto it = children.begin() ; it != children.end(); ++it)
-    {
+	{
 		returnResult.push_back((*it)->GetValue());
-    }
+	}
 	return returnResult;
 }
