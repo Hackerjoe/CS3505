@@ -18,6 +18,7 @@ public:
 	Node* GetChild(char value);
 	char GetValue();
 	int GetLength();
+	vector<char> GetChildrenValues();
 private:
 	char Value;
 	bool word;

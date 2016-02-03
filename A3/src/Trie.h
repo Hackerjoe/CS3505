@@ -18,6 +18,6 @@ public:
 	vector<string> allWordsWithPrefix(string word);
 
 private:
-	
+	vector<string> SearchNode(Node* node);
 	Node* root;
 };

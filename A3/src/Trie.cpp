@@ -1,4 +1,5 @@
 #include "Trie.h"
+#include <iostream>
 
 Trie::Trie()
 {
@@ -72,5 +73,45 @@ bool Trie::isWord(string word)
 vector<string> Trie::allWordsWithPrefix(string word)
 {
 	vector<string> returnResult;
+
+	if(word.length() == 0)
+		return returnResult;
+
+	Node* CurrentNode = root;
+	
+	for(int i = 0; i < word.length(); i++)
+	{
+		Node* NextNode = CurrentNode->GetChild(word[i]);
+	}
+	
+	returnResult = this->SearchNode(CurrentNode);
+	
+	return returnResult;
+}
+
+vector<string> Trie::SearchNode(Node* node)
+{
+	vector<string> returnResult;
+	if(node == NULL)
+		return returnResult;
+	
+	int numberOfChildren = node->GetLength();
+	
+	vector<char> ChildrenValues = node->GetChildrenValues();
+	
+	for (auto it = ChildrenValues.begin() ; it != ChildrenValues.end(); ++it)
+    {
+		Node* Child = node->GetChild((*it));
+		if(Child->isEndOfWord() == true)
+		{
+			string EndString;
+			EndString += node->GetValue();
+			EndString += (*it);
+			cout << EndString << endl;
+			returnResult.push_back(EndString);
+		}
+		this->SearchNode(Child);
+    }
+	
 	return returnResult;
 }

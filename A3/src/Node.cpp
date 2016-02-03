@@ -7,7 +7,7 @@ Node::Node()
 
 Node::~Node()
 {
-	for (std::vector< Node* >::iterator it = children.begin() ; it != children.end(); ++it)
+	for (auto it = children.begin() ; it != children.end(); ++it)
     {
 		delete (*it);
     }
@@ -56,4 +56,14 @@ Node* Node::GetChild(char value)
 int Node::GetLength()
 {
 	return children.size();
+}
+
+vector<char> Node::GetChildrenValues()
+{
+	vector<char> returnResult;
+	for (auto it = children.begin() ; it != children.end(); ++it)
+    {
+		returnResult.push_back((*it)->GetValue());
+    }
+	return returnResult;
 }
