@@ -100,7 +100,7 @@ vector<string> Trie::SearchNode(Node* node, string word)
 	vector<char> ChildrenValues = node->GetChildrenValues();
 	
 	for (auto it = ChildrenValues.begin() ; it != ChildrenValues.end(); ++it)
-    {
+	{
 		Node* Child = node->GetChild((*it));
 		if(Child->isEndOfWord() == true)
 		{
@@ -117,7 +117,7 @@ vector<string> Trie::SearchNode(Node* node, string word)
 		{
 			returnResult.push_back((*it));
 		}
-    }
+	}
 	
 	return returnResult;
 }
