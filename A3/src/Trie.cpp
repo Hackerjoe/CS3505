@@ -1,5 +1,4 @@
 #include "Trie.h"
-#include <iostream>
 
 Trie::Trie()
 {
@@ -11,6 +10,19 @@ Trie::~Trie()
 	delete root;
 }
 
+Trie::Trie(const Trie& other)
+{
+	Node* NewRoot = new Node(*(other.root));
+	this->root = NewRoot;
+}
+
+Trie& Trie::operator=(Trie& other)
+{
+	swap(root,other.root);
+	return *this;
+}
+
+
 void Trie::addWord(string word)
 {
 	Node* CurrentNode = root;
@@ -20,7 +32,7 @@ void Trie::addWord(string word)
 		return;
 	
 	// Loop through the word
-	for(int i = 0; i < word.length(); i++)
+	for(unsigned int i = 0; i < word.length(); i++)
 	{
 		// Grab the child node associated with the character from the current node.
 		Node* Child = CurrentNode->GetChild(word[i]);
@@ -53,7 +65,7 @@ bool Trie::isWord(string word)
 
 	Node* CurrentNode = root;
 	
-	for(int i = 0; i < word.length(); i++)
+	for(unsigned int i = 0; i < word.length(); i++)
 	{
 		Node* NextNode = CurrentNode->GetChild(word[i]);
 		if(NextNode != NULL)
@@ -79,7 +91,7 @@ vector<string> Trie::allWordsWithPrefix(string word)
 
 	Node* CurrentNode = root;
 	
-	for(int i = 0; i < word.length(); i++)
+	for(unsigned int i = 0; i < word.length(); i++)
 	{
 		CurrentNode = CurrentNode->GetChild(word[i]);
 	}

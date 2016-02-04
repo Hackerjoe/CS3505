@@ -62,7 +62,7 @@ char Node::GetValue()
 
 Node* Node::GetChild(char value)
 {
-	for(int i = 0; i < children.size(); i++)
+	for(unsigned int i = 0; i < children.size(); i++)
 	{
 		Node* CurrentChild = children.at(i);
 		if(CurrentChild->GetValue() == value)
