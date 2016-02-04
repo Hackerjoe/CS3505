@@ -59,7 +59,7 @@ bool Trie::isWord(string word)
 		if(NextNode != NULL)
 			CurrentNode = NextNode;
 		else
-			return NULL;		
+			return false;		
 	}
 	
 	if(CurrentNode->isEndOfWord() == true)
@@ -124,8 +124,7 @@ vector<string> Trie::SearchNode(Node* node, string word)
 
 void Trie::TestCopyRoot()
 {
-	cout << "called" << endl;
-	Node* newRoot = root;
+	Node* newRoot = new Node(*root);
 	delete root;
 	root = newRoot;
 }

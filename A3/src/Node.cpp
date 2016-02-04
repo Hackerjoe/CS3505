@@ -8,13 +8,12 @@ Node::Node()
 Node::Node(const Node& other)
 {
 	this->Value = other.Value;
+	this->word = other.word;
 	for (auto it = other.children.begin() ; it != other.children.end(); ++it)
 	{
-		cout << "hello from copy" << endl; 
 		Node* NewNode = new Node(*(*it));
-		cout << NewNode->GetValue() << endl;
 		this->addChildNode(NewNode);
-	}			
+	}
 }
 
 Node::~Node()
@@ -42,7 +41,8 @@ bool Node::isEndOfWord()
 
 void Node::addChildNode(Node* node)
 {
-	children.push_back(node);
+	if(this->GetChild(node->GetValue()) == NULL)
+		children.push_back(node);
 }
 
 void Node::SetValue(char value)
