@@ -92,16 +92,16 @@ vector<string> Trie::allWordsWithPrefix(string word)
 vector<string> Trie::SearchNode(Node* node, string word)
 {
 	vector<string> returnResult;
+
 	if(node == NULL)
 		return returnResult;
-	
-	int numberOfChildren = node->GetLength();
 	
 	vector<char> ChildrenValues = node->GetChildrenValues();
 	
 	for (auto it = ChildrenValues.begin() ; it != ChildrenValues.end(); ++it)
 	{
 		Node* Child = node->GetChild((*it));
+
 		if(Child->isEndOfWord() == true)
 		{
 			string EndWord = word;
@@ -120,4 +120,12 @@ vector<string> Trie::SearchNode(Node* node, string word)
 	}
 	
 	return returnResult;
+}
+
+void Trie::TestCopyRoot()
+{
+	cout << "called" << endl;
+	Node* newRoot = root;
+	delete root;
+	root = newRoot;
 }

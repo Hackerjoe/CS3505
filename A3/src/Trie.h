@@ -16,7 +16,7 @@ public:
 	void addWord(string word);
 	bool isWord(string word);
 	vector<string> allWordsWithPrefix(string word);
-
+	void TestCopyRoot();
 private:
 	vector<string> SearchNode(Node* node, string word);
 	Node* root;

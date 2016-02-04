@@ -3,6 +3,8 @@
 */
 #include <string>
 #include <vector>
+#include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,6 +13,9 @@ class Node
 public:
 	Node();
 	~Node();
+	Node(const Node& other);
+    Node& operator=(Node& other);
+
 	bool isEndOfWord();
 	void addChildNode(Node* node);
 	void SetMarkEnd();

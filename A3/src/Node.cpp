@@ -5,6 +5,18 @@ Node::Node()
 
 }
 
+Node::Node(const Node& other)
+{
+	this->Value = other.Value;
+	for (auto it = other.children.begin() ; it != other.children.end(); ++it)
+	{
+		cout << "hello from copy" << endl; 
+		Node* NewNode = new Node(*(*it));
+		cout << NewNode->GetValue() << endl;
+		this->addChildNode(NewNode);
+	}			
+}
+
 Node::~Node()
 {
 	for (auto it = children.begin() ; it != children.end(); ++it)
@@ -12,6 +24,15 @@ Node::~Node()
 		delete (*it);
     }
 	children.clear(); 
+}
+
+Node& Node::operator=(Node& other)
+{
+	cout << "=" << endl;
+	swap(Value,other.Value);
+	swap(word, other.word);
+	swap(children, other.children);
+	return *this;
 }
 
 bool Node::isEndOfWord()
