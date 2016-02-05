@@ -27,7 +27,6 @@ Node::~Node()
 
 Node& Node::operator=(Node& other)
 {
-	cout << "=" << endl;
 	swap(Value,other.Value);
 	swap(word, other.word);
 	swap(children, other.children);
