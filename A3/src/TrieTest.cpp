@@ -1,5 +1,7 @@
 /*
-*	Joseph Despain u0835107
+* Joseph Despain u0835107
+* This program takes in one file which is the dictionary, and
+* the second file is what words or simlar words you want to find.
 */
 
 #include <iostream>
@@ -11,26 +13,29 @@ using namespace std;
 int main (int argc, char **argv)
 {
 	Trie* trie = new Trie;
-	
+	// Check for first argument.
 	if(argv[1] != NULL)
 	{
 		string line;
+		// Open File
 		ifstream myfile (argv[1], std::ifstream::in);
-		
+		// Check if we can open file.
 		if (myfile.is_open())
 		{
+			// Add words
 			while ( getline (myfile,line) )
 			{
 				trie->addWord(line);
 			}
 			myfile.close();
 		}
-		else
-			cout << "File can not open. May not exist" << endl;
+		else // File may not exist.
+			cout << "File can not open in argument 1. May not exist" << endl;
 	}
 	else
 		cout << "First argument empty.";
 	
+	// Check second argument.
 	if(argv[2] != NULL)
 	{
 		string line;
@@ -46,8 +51,10 @@ int main (int argc, char **argv)
 				}
 				else
 				{
+					// Grab list of similar words
 					vector<string> listOfSimilar = trie->allWordsWithPrefix(line);
 					cout << line << " is not found, did you mean: " << endl;
+					// Check if we have alternates for the word.
 					if(listOfSimilar.size() != 0)
 					{
 						
@@ -57,7 +64,7 @@ int main (int argc, char **argv)
 							cout << "   " << *i << endl;
 						}
 					}
-					else
+					else 
 						cout << "No alternate found" << endl;
 
 				}
@@ -65,16 +72,11 @@ int main (int argc, char **argv)
 			myfile.close();
 		}
 		else
-			cout << "File can not open. May not exist" << endl;
+			cout << "File can not open in arugment 2. May not exist" << endl;
 	}
 
 	
-	vector<string> list;
-	for(vector<string>::const_iterator i = list.begin(); i != list.end(); ++i)
-	{
-		cout << *i << " and ";
-	}
-	
+	// Clean up, clean up, everybody do your share.
 	delete trie;
 	
 	return 0;

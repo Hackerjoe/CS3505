@@ -1,3 +1,8 @@
+/*
+* Joseph Despain u0835107
+*
+*/
+
 #include "Node.h"
 
 Node::Node()
@@ -9,19 +14,24 @@ Node::Node(const Node& other)
 {
 	this->Value = other.Value;
 	this->word = other.word;
+	// Create and add children nodes.
 	for (auto it = other.children.begin() ; it != other.children.end(); ++it)
 	{
+		// Recursively create child nodes.
 		Node* NewNode = new Node(*(*it));
+		NewNode->Parent = this;
 		this->addChildNode(NewNode);
 	}
 }
 
 Node::~Node()
 {
+	// Delete all children
 	for (auto it = children.begin() ; it != children.end(); ++it)
     {
 		delete (*it);
     }
+	// Clear vector
 	children.clear(); 
 }
 
@@ -30,7 +40,13 @@ Node& Node::operator=(Node& other)
 	swap(Value,other.Value);
 	swap(word, other.word);
 	swap(children, other.children);
+	swap(Parent, other.Parent);
 	return *this;
+}
+
+void Node::SetParent(Node* node)
+{
+	this->Parent = node;
 }
 
 bool Node::isEndOfWord()
@@ -78,6 +94,10 @@ int Node::GetLength()
 	return children.size();
 }
 
+Node* Node::GetParent()
+{
+	return Parent;
+}
 vector<char> Node::GetChildrenValues()
 {
 	vector<char> returnResult;

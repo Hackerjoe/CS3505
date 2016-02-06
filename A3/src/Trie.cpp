@@ -1,3 +1,7 @@
+/*
+* Joseph Despain u0835107
+*/
+
 #include "Trie.h"
 
 Trie::Trie()
@@ -47,6 +51,7 @@ void Trie::addWord(string word)
 			Node* NewNode = new Node();
 			// Set the new nodes value.
 			NewNode->SetValue(word[i]);
+			NewNode->SetParent(CurrentNode);
 			CurrentNode->addChildNode(NewNode);
 			CurrentNode = NewNode;
 		}
@@ -59,21 +64,24 @@ void Trie::addWord(string word)
 
 bool Trie::isWord(string word)
 {
-	
+	// entered nothing forget it.
 	if(word.length() == 0)
 		return false;
 
 	Node* CurrentNode = root;
-	
+	// Go down the tree to find the word/
 	for(unsigned int i = 0; i < word.length(); i++)
 	{
+		// Grab child node.
 		Node* NextNode = CurrentNode->GetChild(word[i]);
+		// If the next node is null the word does not exist.
 		if(NextNode != NULL)
 			CurrentNode = NextNode;
 		else
 			return false;		
 	}
 	
+	// Now we are at the end check if it is a word in the dictionary.
 	if(CurrentNode->isEndOfWord() == true)
 		return true;
 	else
@@ -85,45 +93,55 @@ bool Trie::isWord(string word)
 vector<string> Trie::allWordsWithPrefix(string word)
 {
 	vector<string> returnResult;
-
-	if(word.length() == 0)
-		return returnResult;
-
+	
 	Node* CurrentNode = root;
 	
+	// Blank string was entered return all words.
+	if(word.length() == 0)
+		return this->SearchNode(CurrentNode,"");
+
+	// Move down the trie with the prefix.
 	for(unsigned int i = 0; i < word.length(); i++)
 	{
-		CurrentNode = CurrentNode->GetChild(word[i]);
+		if(CurrentNode != NULL)
+			CurrentNode = CurrentNode->GetChild(word[i]);
+		else
+			break;
 	}
-	
-	returnResult = this->SearchNode(CurrentNode, word);
+	// If the node is not null search the node and the children.
+	if(CurrentNode != NULL)
+		returnResult = this->SearchNode(CurrentNode, word);
 	
 	return returnResult;
 }
 
+/*
+* This function recursively checks the nodes and their children
+* for words.
+*
+*/
 vector<string> Trie::SearchNode(Node* node, string word)
 {
 	vector<string> returnResult;
 
 	if(node == NULL)
 		return returnResult;
-	
+
+	// Get Children Values
 	vector<char> ChildrenValues = node->GetChildrenValues();
-	
+	// iterate through children.
 	for (auto it = ChildrenValues.begin() ; it != ChildrenValues.end(); ++it)
 	{
+		// Get Child
 		Node* Child = node->GetChild((*it));
-
+		// If it is end of word add to the return result.
 		if(Child->isEndOfWord() == true)
 		{
-			string EndWord = word;
-			EndWord += (*it); 
-			returnResult.push_back(EndWord);
+			// Get word returns the full word.
+			returnResult.push_back(GetWord(Child,""));
 		}
-		else
-		{
-			word +=(*it);
-		}
+		
+		// Now recursively check the child for words.
 		vector<string> RecResult = this->SearchNode(Child,word);
 		for (auto it = RecResult.begin() ; it != RecResult.end(); ++it)
 		{
@@ -134,9 +152,15 @@ vector<string> Trie::SearchNode(Node* node, string word)
 	return returnResult;
 }
 
-void Trie::TestCopyRoot()
+/*
+* Get word goes back up the trie to get the word.
+*/
+string Trie::GetWord(Node* node,string word)
 {
-	Node* newRoot = new Node(*root);
-	delete root;
-	root = newRoot;
+	if(node == NULL)
+		return "";
+	string returnResult = "";
+	returnResult = node->GetValue();
+	returnResult = GetWord(node->GetParent(), returnResult) + returnResult;
+	return returnResult;
 }
